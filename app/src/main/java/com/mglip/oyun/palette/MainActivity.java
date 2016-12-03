@@ -1,27 +1,21 @@
 package com.mglip.oyun.palette;
 
-import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.TypefaceSpan;
-import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
 import cn.bmob.v3.Bmob;
-
 import java.io.*;
 
 
 public class MainActivity extends AppCompatActivity {
     private MyView myView;
     private TextView textView;
-    private SpannableString msp = null;
+    private int textSize = 0;
+    private String nowString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
                 myView.clear();
             }
         });
@@ -47,19 +39,43 @@ public class MainActivity extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myView.save();
+                myView.save(nowString);
+                loadText();
             }
         });
+        Typeface type =Typeface.createFromAsset(this.getAssets(),"font/LD-MONG-BT.ttf");
+
         myView= (MyView) findViewById(R.id.surfaceView);
         textView = (TextView) this.findViewById(R.id.textView);
+        textView.setTypeface(type);
         init();
     }
 
-
-    private void init(){
+    /**
+     * 初始化文本长度
+     */
+    private void textSizeInit(){
         InputStreamReader inputStreamReader = null;
         InputStream inputStream = getResources().openRawResource(R.raw.text);
-        int size = 0;
+        try {
+            inputStreamReader = new InputStreamReader(inputStream, "unicode");
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+        StringBuffer sb = new StringBuffer("");
+        try {
+            while ((reader.readLine()) != null) {
+                textSize++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadText(){
+        InputStreamReader inputStreamReader = null;
+        InputStream inputStream = getResources().openRawResource(R.raw.text);
         try {
             inputStreamReader = new InputStreamReader(inputStream, "unicode");
         } catch (UnsupportedEncodingException e1) {
@@ -69,23 +85,25 @@ public class MainActivity extends AppCompatActivity {
         StringBuffer sb = new StringBuffer("");
         String line = "";
         try {
+            int size = (int)(Math.random()*textSize);
             while ((line = reader.readLine()) != null) {
-                sb.append(line);
-                size++;
-                sb.append("\n");
-                if(size==2){
-                    Log.i("textSize",""+size+" "+line);
-                    msp = new SpannableString(line);
-                    msp.setSpan(new TypefaceSpan("raw/ldmongbt.ttf"), 0, line.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    textView.setText("");
+                size--;
+                if(size==1){
+                    sb.append(line);
+                    sb.append("\n");
+                    nowString = line;
+                    textView.setText(sb);
+                    break;
                 }
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i("textSize",""+size+" "+line);
+    }
+
+    private void init(){
+        textSizeInit();
+        loadText();
     }
 
     @Override
@@ -106,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Toast;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -28,7 +29,12 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
     private Path path=new Path();
     private String linesToString(){
         String s = "";
+        boolean n = true;
         for(ArrayList list: lines){
+            if(!n){
+                s+="#";
+            }
+            n=false;
             for(int i=0;i<list.size();i++){
                 Point point = (Point) list.get(i);
                 s+=point.x;
@@ -38,7 +44,6 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
                     s+=";";
                 }
             }
-            s+="#";
         }
         return s;
     }
@@ -124,7 +129,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
     }
 
 
-    public void save(){
+    public void save(String nowString){
         Word word = new Word();
         File file;
         try {
@@ -155,8 +160,6 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
                 canvas.drawPath(path2,paint);
             }
 
-
-
             file = new File(Environment.getExternalStorageDirectory(), fileName);
             OutputStream stream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -167,19 +170,20 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
             intent.setData(Uri.fromFile(Environment.getExternalStorageDirectory()));
             Log.i("保存文件：","success!   "+Environment.getExternalStorageDirectory());
         } catch (Exception e) {
-            Log.e("保存文件：","error");
+            Toast.makeText(getContext(),"文件保存失败！",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         path.reset();        //重新锁定，否则不能再次绘画
         draw();
         word.setWord(linesToString());
+        word.setStr(nowString);
         word.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if(e==null){
                     Log.i("bmob:","success");
                 }else{
-                    Log.e("bmob:","error："+e.getMessage()+","+e.getErrorCode());
+                    Toast.makeText(getContext(),"云端保存失败！",Toast.LENGTH_SHORT).show();
                 }
             }
         });

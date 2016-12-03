@@ -8,6 +8,15 @@ import cn.bmob.v3.BmobObject;
  */
 public class Word extends BmobObject{
     private String word;
+    private String str;
+
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
+    }
 
     public String getWord() {
         return word;
