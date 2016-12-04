@@ -9,6 +9,15 @@ import cn.bmob.v3.BmobObject;
 public class Word extends BmobObject{
     private String word;
     private String str;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getStr() {
         return str;

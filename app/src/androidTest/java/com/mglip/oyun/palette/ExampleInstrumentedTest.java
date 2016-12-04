@@ -4,8 +4,12 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import android.util.Log;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,5 +26,33 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.mglip.oyun.palette", appContext.getPackageName());
+    }
+
+    @Test
+    public void addWord(){
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        SQLiteDAOImpl p = new SQLiteDAOImpl(appContext);
+        Word word = new Word();
+        word.setStr("test");
+        word.setWord("12312ej129j012jd0182hd0j0j8d2012d12d1231d212e12ds12e12sd");
+        p.save(word);
+    }
+
+    @Test
+    public void findAllWord(){
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        SQLiteDAOImpl p = new SQLiteDAOImpl(appContext);
+        List<Word> list =p.findAll();
+
+        for(Word word: list){
+            Log.e("number",""+word.getId()+" "+word.getStr());
+        }
+    }
+
+    @Test
+    public void deleteWord(){
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        SQLiteDAOImpl p = new SQLiteDAOImpl(appContext);
+        p.delete(2);
     }
 }

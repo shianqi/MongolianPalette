@@ -19,12 +19,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author shianqi@imudges.com
  *         Created by shianqi on 2016/12/1
  */
 public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.OnTouchListener {
+    private SQLiteDAOImpl sqLiteDAO;
+    private Word word;
+    private int successNumber = 0;
+
     private Paint paint=new Paint();
     private Path path=new Path();
     private String linesToString(){
@@ -130,7 +135,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
 
 
     public void save(String nowString){
-        Word word = new Word();
+        word = new Word();
         File file;
         try {
             String fileName = "oyun/"+System.currentTimeMillis() + ".jpg";
@@ -168,7 +173,6 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_MEDIA_MOUNTED);
             intent.setData(Uri.fromFile(Environment.getExternalStorageDirectory()));
-            Log.i("保存文件：","success!   "+Environment.getExternalStorageDirectory());
         } catch (Exception e) {
             Toast.makeText(getContext(),"文件保存失败！",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -184,10 +188,41 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
                     Log.i("bmob:","success");
                 }else{
                     Toast.makeText(getContext(),"云端保存失败！",Toast.LENGTH_SHORT).show();
+                    Log.e("bmob:","数据保存失败");
+                    saveInformationIfNoNet();
                 }
             }
         });
         lines.clear();
+        synchroInformation();
+    }
+
+    private void saveInformationIfNoNet(){
+        sqLiteDAO = new SQLiteDAOImpl(this.getContext());
+        sqLiteDAO.save(word);
+    }
+
+    private void synchroInformation(){
+        sqLiteDAO = new SQLiteDAOImpl(this.getContext());
+        List<Word> list = sqLiteDAO.findAll();
+        successNumber = 0;
+        for(final Word word:list){
+            word.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if(e==null){
+                        numberAdd();
+                        sqLiteDAO.delete(word.getId());
+                    }else{
+
+                    }
+                }
+            });
+        }
+        //Toast.makeText(getContext(),"已同步数据"+successNumber+"条！",Toast.LENGTH_SHORT).show();
+    }
+    private void numberAdd(){
+        successNumber++;
     }
 }
 
