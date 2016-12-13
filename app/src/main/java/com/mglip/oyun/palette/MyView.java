@@ -12,8 +12,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import android.provider.Settings.Secure;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -134,7 +134,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
     }
 
 
-    public void save(String nowString){
+    public void save(String nowString, int index){
         word = new Word();
         File file;
         try {
@@ -181,16 +181,19 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
         draw();
         word.setWord(linesToString());
         word.setStr(nowString);
-        word.save(new SaveListener<String>() {
+        word.setWordIndex(index);
+        String android_id = Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID);
+        word.setPhoneId(android_id);
+        word.save(this.getContext(),new AsyncHttpResponseHandler() {
             @Override
-            public void done(String s, BmobException e) {
-                if(e==null){
-                    Log.i("bmob:","success");
-                }else{
-                    Toast.makeText(getContext(),"云端保存失败！",Toast.LENGTH_SHORT).show();
-                    Log.e("bmob:","数据保存失败");
-                    saveInformationIfNoNet();
-                }
+            public void onSuccess(int i, org.apache.http.Header[] headers, byte[] bytes) {
+                Log.i("bmob:","数据保存成功");
+            }
+
+            @Override
+            public void onFailure(int i, org.apache.http.Header[] headers, byte[] bytes, Throwable throwable) {
+                Log.e("bmob:","数据保存失败"+throwable.toString());
+                saveInformationIfNoNet();
             }
         });
         lines.clear();
@@ -207,15 +210,16 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
         List<Word> list = sqLiteDAO.findAll();
         successNumber = 0;
         for(final Word word:list){
-            word.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if(e==null){
-                        numberAdd();
-                        sqLiteDAO.delete(word.getId());
-                    }else{
 
-                    }
+            word.save(this.getContext(),new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, org.apache.http.Header[] headers, byte[] bytes) {
+                    numberAdd();
+                    sqLiteDAO.delete(word.getWord());
+                }
+
+                @Override
+                public void onFailure(int i, org.apache.http.Header[] headers, byte[] bytes, Throwable throwable) {
                 }
             });
         }

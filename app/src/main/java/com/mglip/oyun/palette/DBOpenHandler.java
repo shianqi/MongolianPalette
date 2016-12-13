@@ -17,7 +17,7 @@ public class DBOpenHandler extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         // 覆写onCreate方法，当数据库创建时就用SQL命令创建一个表
         // 创建一个t_users表，id主键，自动增长，字符类型的username和pass;
-        db.execSQL("create table t_cache(id integer primary key autoincrement,str varchar(200),word varchar(10000) )");
+        db.execSQL("create table t_cache(id integer primary key autoincrement,str varchar(200),word varchar(10000),wordIndex int(10),  phoneId varchar(1000))");
 
     }
 

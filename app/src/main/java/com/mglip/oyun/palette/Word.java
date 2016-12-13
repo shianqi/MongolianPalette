@@ -1,22 +1,34 @@
 package com.mglip.oyun.palette;
 
-import cn.bmob.v3.BmobObject;
+
+import android.content.Context;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 /**
  * @author shianqi@imudges.com
  *         Created by shianqi on 2016/12/1
  */
-public class Word extends BmobObject{
+public class Word{
     private String word;
+    private int wordIndex;
     private String str;
-    private int id;
+    private String phoneId;
 
-    public int getId() {
-        return id;
+    public int getWordIndex() {
+        return wordIndex;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setWordIndex(int wordIndex) {
+        this.wordIndex = wordIndex;
+    }
+
+    public String getPhoneId() {
+        return phoneId;
+    }
+
+    public void setPhoneId(String phoneId) {
+        this.phoneId = phoneId;
     }
 
     public String getStr() {
@@ -33,5 +45,14 @@ public class Word extends BmobObject{
 
     public void setWord(String word) {
         this.word = word;
+    }
+
+    public void save(Context context, AsyncHttpResponseHandler asyncHttpResponseHandler){
+        RequestParams params = new RequestParams();
+        params.put("word", word);
+        params.put("wordIndex", wordIndex);
+        params.put("str", str);
+        params.put("phoneId", phoneId);
+        TwitterRestClient.post("", params, asyncHttpResponseHandler);
     }
 }

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.TextView;
-import cn.bmob.v3.Bmob;
 import java.io.*;
 
 
@@ -16,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private int textSize = 0;
     private String nowString = "";
+    private int nowIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //初始化Bmob
-        Bmob.initialize(this, "8f30f830ee035896610ddd472c56eb8e");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myView.save(nowString);
+                myView.save(nowString,nowIndex);
                 loadText();
             }
         });
@@ -86,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         String line = "";
         try {
             int size = (int)(Math.random()*textSize);
+            nowIndex = size;
             while ((line = reader.readLine()) != null) {
                 size--;
                 if(size==1){

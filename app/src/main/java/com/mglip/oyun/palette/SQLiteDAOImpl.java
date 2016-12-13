@@ -20,13 +20,13 @@ public class SQLiteDAOImpl {
 
     public void save(Word word) {// 插入记录
         SQLiteDatabase db = dbOpenHandler.getWritableDatabase();// 取得数据库操作
-        db.execSQL("insert into t_cache (str,word) values(?,?)", new Object[] { word.getStr(), word.getWord()});
+        db.execSQL("insert into t_cache (str,word,wordIndex,phoneId) values(?,?,?,?)", new Object[] { word.getStr(), word.getWord(), word.getWordIndex(), word.getPhoneId()});
         db.close();// 记得关闭数据库操作
     }
 
-    public void delete(Integer id) {// 删除纪录
+    public void delete(String id) {// 删除纪录
         SQLiteDatabase db = dbOpenHandler.getWritableDatabase();
-        db.execSQL("delete from t_cache where id=?", new Object[] { id.toString() });
+        db.execSQL("delete from t_cache where word=?", new Object[] { id });
         db.close();
     }
 //
@@ -63,9 +63,10 @@ public class SQLiteDAOImpl {
         Cursor cursor = db.rawQuery("select * from t_cache ", null);
         while (cursor.moveToNext()) {
             word = new Word();
-            word.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            word.setWordIndex(cursor.getInt(cursor.getColumnIndex("wordIndex")));
             word.setStr(cursor.getString(cursor.getColumnIndex("str")));
             word.setWord(cursor.getString(cursor.getColumnIndex("word")));
+            word.setPhoneId(cursor.getString(cursor.getColumnIndex("phoneId")));
             lists.add(word);
         }
         db.close();
