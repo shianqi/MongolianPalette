@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             inputStreamReader = new InputStreamReader(inputStream, "unicode");
         } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace(); 
+            e1.printStackTrace();
         }
         BufferedReader reader = new BufferedReader(inputStreamReader);
         StringBuffer sb = new StringBuffer("");
@@ -133,9 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, MyInformationActivity.class);
             MainActivity.this.startActivity(intent);
-            MainActivity.this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

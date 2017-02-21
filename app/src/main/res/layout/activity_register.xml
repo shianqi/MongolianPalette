@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:id="@+id/registerButton"/>
+            android:id="@+id/registerButton"
+            style="@style/Widget.AppCompat.Button.Colored"/>
     <TextView
             android:text="已有账号？"
             android:layout_width="match_parent"

@@ -37,6 +37,11 @@
                 android:name=".LoginActivity"
                 android:label="登陆">
         </activity>
+        <activity
+                android:name=".MyInformationActivity"
+                android:label="我的信息">
+
+        </activity>
     </application>
 
 </manifest>

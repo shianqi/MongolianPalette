@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_margin="2dp"
             android:layout_height="wrap_content"
-            android:id="@+id/loginButton"/>
+            android:id="@+id/loginButton"
+            style="@style/Widget.AppCompat.Button.Colored"/>
     <TextView
             android:text="没有账号？"
             android:layout_width="match_parent"
