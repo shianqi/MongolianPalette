@@ -77,7 +77,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
     }
     void initSurfaceView(Context context){
         getHolder().addCallback(this);
-        paint.setStrokeWidth(15);
+        paint.setStrokeWidth(6);
         paint.setColor(Color.rgb(255, 167, 0));        //画笔大小
         paint.setTextSize(20);
         paint.setStyle(Paint.Style.STROKE);        //设置监听
@@ -134,7 +134,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
     }
 
 
-    public void save(String nowString, int index){
+    public void save(String nowString, int index, String userId){
         word = new Word();
         File file;
         try {
@@ -184,6 +184,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
         word.setWordIndex(index);
         String android_id = Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID);
         word.setPhoneId(android_id);
+        word.setUserId(userId);
         word.save(this.getContext(),new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, org.apache.http.Header[] headers, byte[] bytes) {

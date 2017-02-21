@@ -29,29 +29,7 @@ public class SQLiteDAOImpl {
         db.execSQL("delete from t_cache where word=?", new Object[] { id });
         db.close();
     }
-//
-//    public void update(TUsers tusers) {// 修改纪录
-//        SQLiteDatabase db = dbOpenHandler.getWritableDatabase();
-//        db.execSQL("update t_cache set username=?,pass=? where" + " id=?", new Object[] { tusers.getUsername(), tusers.getPass(), tusers.getId() });
-//        db.close();
-//    }
-//
-//    public TUsers find(Integer id) {// 根据ID查找纪录
-//        TUsers tusers = null;
-//        SQLiteDatabase db = dbOpenHandler.getReadableDatabase();
-//        // 用游标Cursor接收从数据库检索到的数据
-//        Cursor cursor = db.rawQuery("select * from t_cache where id=?", new String[] { id.toString() });
-//        if (cursor.moveToFirst()) {// 依次取出数据
-//            tusers = new TUsers();
-//            tusers.setId(cursor.getInt(cursor.getColumnIndex("id")));
-//            tusers.setUsername(cursor.getString(cursor.getColumnIndex("username")));
-//            tusers.setPass(cursor.getString(cursor.getColumnIndex("pass")));
-//
-//        }
-//        db.close();
-//        return tusers;
-//    }
-//
+
     public List<Word> findAll() {// 查询所有记录
         List<Word> lists = new ArrayList<Word>();
         Word word = null;

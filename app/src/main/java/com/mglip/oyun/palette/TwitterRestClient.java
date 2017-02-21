@@ -9,7 +9,8 @@ import com.loopj.android.http.RequestParams;
  *         Created by shianqi on 2016/12/13
  */
 public class TwitterRestClient {
-    private static final String BASE_URL = "http://183.175.12.144:3000/save";
+    private static final String BASE_URL = "http://183.175.12.144:3000/";
+//    private static final String BASE_URL = "http://183.175.14.209:6229/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

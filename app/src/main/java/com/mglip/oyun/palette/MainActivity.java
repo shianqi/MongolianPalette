@@ -1,5 +1,7 @@
 package com.mglip.oyun.palette;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,11 +18,22 @@ public class MainActivity extends AppCompatActivity {
     private int textSize = 0;
     private String nowString = "";
     private int nowIndex = 0;
+    private String userId;
+    private SharedPreferences userSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userSettings = getSharedPreferences("setting", 0);
+        userId = userSettings.getString("userId","");
+        if(userId.equals("")){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(intent);
+            MainActivity.this.finish();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myView.save(nowString,nowIndex);
+                myView.save(nowString,nowIndex,userId);
                 loadText();
             }
         });
@@ -120,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(intent);
+            MainActivity.this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

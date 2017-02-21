@@ -1,6 +1,5 @@
 package com.mglip.oyun.palette;
 
-
 import android.content.Context;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -14,6 +13,7 @@ public class Word{
     private int wordIndex;
     private String str;
     private String phoneId;
+    private String userId;
 
     public int getWordIndex() {
         return wordIndex;
@@ -47,12 +47,21 @@ public class Word{
         this.word = word;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public void save(Context context, AsyncHttpResponseHandler asyncHttpResponseHandler){
         RequestParams params = new RequestParams();
         params.put("word", word);
         params.put("wordIndex", wordIndex);
         params.put("str", str);
         params.put("phoneId", phoneId);
-        TwitterRestClient.post("", params, asyncHttpResponseHandler);
+        params.put("userId", userId);
+        TwitterRestClient.post("save", params, asyncHttpResponseHandler);
     }
 }
