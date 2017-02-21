@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             inputStreamReader = new InputStreamReader(inputStream, "unicode");
         } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
+            e1.printStackTrace(); 
         }
         BufferedReader reader = new BufferedReader(inputStreamReader);
         StringBuffer sb = new StringBuffer("");
