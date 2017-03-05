@@ -20,7 +20,7 @@ public class SQLiteDAOImpl {
 
     public void save(Word word) {// 插入记录
         SQLiteDatabase db = dbOpenHandler.getWritableDatabase();// 取得数据库操作
-        db.execSQL("insert into t_cache (str,word,wordIndex,phoneId) values(?,?,?,?)", new Object[] { word.getStr(), word.getWord(), word.getWordIndex(), word.getPhoneId()});
+        db.execSQL("insert into t_cache (str,word,wordIndex,phoneId,userId) values(?,?,?,?)", new Object[] { word.getStr(), word.getWord(), word.getWordIndex(), word.getPhoneId(), word.getUserId()});
         db.close();// 记得关闭数据库操作
     }
 
@@ -45,6 +45,7 @@ public class SQLiteDAOImpl {
             word.setStr(cursor.getString(cursor.getColumnIndex("str")));
             word.setWord(cursor.getString(cursor.getColumnIndex("word")));
             word.setPhoneId(cursor.getString(cursor.getColumnIndex("phoneId")));
+            word.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
             lists.add(word);
         }
         db.close();

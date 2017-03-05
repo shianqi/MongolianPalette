@@ -146,7 +146,7 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
                 dirFirstFolder.mkdir();//创建文件夹
             }
             Bitmap bitmap = Bitmap.createBitmap(getWidth(),getHeight(),Bitmap.Config.ARGB_8888);
-            //初始化画布为白色 
+            //初始化画布为白色
 
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(Color.WHITE);
