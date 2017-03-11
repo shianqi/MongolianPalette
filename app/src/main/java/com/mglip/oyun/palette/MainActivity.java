@@ -9,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.TextView;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import org.apache.http.Header;
+
 import java.io.*;
 
 
@@ -20,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private int nowIndex = 0;
     private String userId;
     private SharedPreferences userSettings;
+    private TextView allSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(intent);
             MainActivity.this.finish();
         }
+
+        allSize = (TextView)findViewById(R.id.allSize);
+        updateAllSize();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 myView.save(nowString,nowIndex,userId);
+                String allSizeString = userSettings.getString("allSize","0");
+                int newNumber = (Integer.parseInt(allSizeString)+1);
+                allSize.setText("已写："+newNumber+"个");
+
+                SharedPreferences.Editor editor = userSettings.edit();
+                editor.putString("allSize", newNumber+"");
+                editor.apply();
                 loadText();
             }
         });
@@ -59,6 +74,34 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) this.findViewById(R.id.textView);
         textView.setTypeface(type);
         init();
+    }
+
+    /**
+     * 更新底部的数量
+     */
+    private void updateAllSize(){
+        String allSizeString = userSettings.getString("allSize","0");
+        allSize.setText("已写："+allSizeString+"个");
+
+        String username = userSettings.getString("userId","");
+        RequestParams params = new RequestParams();
+        params.put("username", username);
+        TwitterRestClient.post("getSizeNoPaid", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                String text = "已写："+new String(bytes)+"个";
+
+                SharedPreferences.Editor editor = userSettings.edit();
+                editor.putString("allSize", new String(bytes));
+                editor.apply();
+                allSize.setText(text);
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                //allSize.setText("未领赏词条：加载失败");
+            }
+        });
     }
 
     /**

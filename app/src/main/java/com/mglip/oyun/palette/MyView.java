@@ -193,7 +193,6 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
 
             @Override
             public void onFailure(int i, org.apache.http.Header[] headers, byte[] bytes, Throwable throwable) {
-                Log.e("bmob:","数据保存失败"+throwable.toString());
                 saveInformationIfNoNet();
             }
         });
@@ -204,6 +203,8 @@ public class MyView extends SurfaceView implements SurfaceHolder.Callback,View.O
     private void saveInformationIfNoNet(){
         sqLiteDAO = new SQLiteDAOImpl(this.getContext());
         sqLiteDAO.save(word);
+
+
     }
 
     private void synchroInformation(){

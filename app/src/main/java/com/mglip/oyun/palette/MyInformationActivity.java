@@ -27,38 +27,38 @@ public class MyInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinformation);
 
-        itemPaid = (TextView)findViewById(R.id.itemPaid);
-        itemNoPaid = (TextView)findViewById(R.id.itemNoPaid);
+//        itemPaid = (TextView)findViewById(R.id.itemPaid);
+//        itemNoPaid = (TextView)findViewById(R.id.itemNoPaid);
         logoutButton = (Button)findViewById(R.id.logoutButton);
 
-        userSettings = getSharedPreferences("setting", 0);
-        String username = userSettings.getString("userId","");
-        RequestParams params = new RequestParams();
-        params.put("username", username);
-        TwitterRestClient.post("getSizePaid", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                String text = "已领赏词条： "+new String(bytes)+" 个";
-                itemPaid.setText(text);
-            }
-
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                itemPaid.setText("已领赏词条：加载失败");
-            }
-        });
-        TwitterRestClient.post("getSizeNoPaid", params, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                String text = "未领赏词条： "+new String(bytes)+" 个";
-                itemNoPaid.setText(text);
-            }
-
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                itemNoPaid.setText("未领赏词条：加载失败");
-            }
-        });
+//        userSettings = getSharedPreferences("setting", 0);
+//        String username = userSettings.getString("userId","");
+//        RequestParams params = new RequestParams();
+//        params.put("username", username);
+//        TwitterRestClient.post("getSizePaid", params, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+//                String text = "已领赏词条： "+new String(bytes)+" 个";
+//                itemPaid.setText(text);
+//            }
+//
+//            @Override
+//            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+//                itemPaid.setText("已领赏词条：加载失败");
+//            }
+//        });
+//        TwitterRestClient.post("getSizeNoPaid", params, new AsyncHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+//                String text = "未领赏词条： "+new String(bytes)+" 个";
+//                itemNoPaid.setText(text);
+//            }
+//
+//            @Override
+//            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+//                itemNoPaid.setText("未领赏词条：加载失败");
+//            }
+//        });
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override

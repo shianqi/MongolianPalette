@@ -20,7 +20,7 @@ public class SQLiteDAOImpl {
 
     public void save(Word word) {// 插入记录
         SQLiteDatabase db = dbOpenHandler.getWritableDatabase();// 取得数据库操作
-        db.execSQL("insert into t_cache (str,word,wordIndex,phoneId,userId) values(?,?,?,?)", new Object[] { word.getStr(), word.getWord(), word.getWordIndex(), word.getPhoneId(), word.getUserId()});
+        db.execSQL("insert into t_cache (str,word,wordIndex,phoneId,userId) values(?,?,?,?,?)", new Object[] { word.getStr(), word.getWord(), word.getWordIndex(), word.getPhoneId(), word.getUserId()});
         db.close();// 记得关闭数据库操作
     }
 

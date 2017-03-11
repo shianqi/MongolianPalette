@@ -4,20 +4,20 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-            android:text="已领赏词条：加载中..."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/itemPaid"
-            android:layout_margin="10dp"
-            android:textSize="18sp"/>
-    <TextView
-            android:text="未领赏词条：加载中..."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/itemNoPaid"
-            android:layout_margin="10dp"
-            android:textSize="18sp"/>
+    <!--<TextView-->
+            <!--android:text="已领赏词条：加载中..."-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/itemPaid"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:textSize="18sp"/>-->
+    <!--<TextView-->
+            <!--android:text="未领赏词条：加载中..."-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/itemNoPaid"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:textSize="18sp"/>-->
     <Button
             android:text="注 销"
             android:layout_width="match_parent"
